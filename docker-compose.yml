@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laysanobre
+      MYSQL_USER: laysanobre
+      MYSQL_PASSWORD: laysanobre
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/nginx/dbdata:/var/lib/mysql
