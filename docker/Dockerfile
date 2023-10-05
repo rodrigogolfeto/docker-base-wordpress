@@ -13,5 +13,8 @@ RUN apt-get update && apt-get install -y \
 # Instale o Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Copie o arquivo php.ini personalizado
+COPY my-php.ini /usr/local/etc/php/conf.d/my-php.ini
+
 # Copie o código PHP para o contêiner
 COPY . /var/www/html/
